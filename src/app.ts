@@ -1,14 +1,18 @@
-
-const express = require('express')
+import express from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, { /* options */ });
 
-app.get('/', (req: any, res: { send: (arg0: string) => void; }) => {
-	res.send('Hello world!');
+app.get('/', (req, res) => {
+	res.send('Hello world get endpoint')
 })
 
-app.listen(7001, () => {
-	console.log('The application is listening on port 7001!');
-})
+io.on("connection", (socket) => {
+	// ...
+	console.log('user connected');
+});
 
-export {}
+httpServer.listen(7001);

@@ -34,6 +34,7 @@ io.on("connection", (socket) => {
         }
         const user = usersState.get(socket);
         user.name = name;
+        console.log(`client-name-set -> ${name}`);
     });
     socket.on('client-message-sent', (message) => {
         if (typeof message !== 'string') {
@@ -44,6 +45,7 @@ io.on("connection", (socket) => {
         const newMessage = { message, id: new Date().getTime().toString(), user: { id: user.id, name: user.name } };
         state.push(newMessage);
         socket.emit('new-message-sent', newMessage);
+        console.log(`client-message-sent -> ${message}`);
     });
     socket.emit('init-messages-published', state);
     console.log('user connected socket io');
